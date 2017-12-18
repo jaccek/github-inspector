@@ -1,0 +1,59 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.github.jaccek.githubinspector.viper.userslist.view.UserItemViewModel"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_size">
+
+        <ImageView
+            android:id="@+id/userAvatarImageView"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:contentDescription="@string/content_description.avatar"
+            android:src="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcUrl="@{viewModel.avatarUrl}"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size"
+            android:text="@{viewModel.username}"
+            app:layout_constraintBottom_toBottomOf="@id/guideline"
+            app:layout_constraintLeft_toRightOf="@id/userAvatarImageView"
+            tools:ignore="RtlHardcoded"
+            tools:text="login"/>
+
+        <TextView
+            android:id="@+id/gitHubUrlTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.gitHubPage}"
+            app:layout_constraintLeft_toLeftOf="@id/usernameTextView"
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            tools:text="https://github.com/login"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
