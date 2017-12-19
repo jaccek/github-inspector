@@ -7,7 +7,7 @@ import com.github.jaccek.githubinspector.R
 import com.github.jaccek.githubinspector.databinding.ActivityUsersListBinding
 import com.github.jaccek.githubinspector.rdp.model.User
 import com.github.jaccek.githubinspector.viper.userslist.view.UsersListAdapter
-import com.github.jaccek.githubinspector.viper.userslist.view.UsersListViewModel
+import com.github.jaccek.githubinspector.viper.userslist.view.model.UsersListViewModel
 import com.mateuszkoslacz.moviper.base.view.activity.autoinject.passive.databinding.ViperDataBindingPassiveActivity
 import com.mateuszkoslacz.moviper.iface.presenter.ViperPresenter
 import io.reactivex.subjects.PublishSubject

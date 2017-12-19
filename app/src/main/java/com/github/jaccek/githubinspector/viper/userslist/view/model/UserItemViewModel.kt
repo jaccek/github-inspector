@@ -1,4 +1,4 @@
-package com.github.jaccek.githubinspector.viper.userslist.view
+package com.github.jaccek.githubinspector.viper.userslist.view.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable

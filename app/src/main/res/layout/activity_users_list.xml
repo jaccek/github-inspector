@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.jaccek.githubinspector.viper.userslist.view.UsersListViewModel"/>
+            type="com.github.jaccek.githubinspector.viper.userslist.view.model.UsersListViewModel"/>
 
     </data>
 
@@ -21,12 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/single_user_item"/>
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:visible="@{viewModel.loaderVisible}"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
