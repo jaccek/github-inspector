@@ -5,6 +5,8 @@ import com.github.jaccek.githubinspector.di.component.DaggerSpecificationCompone
 import com.github.jaccek.githubinspector.di.component.RepositoryComponent
 import com.github.jaccek.githubinspector.di.component.SpecificationComponent
 import com.github.jaccek.githubinspector.di.module.SpecificationModule
+import com.github.jaccek.githubinspector.util.logger.Logger
+import com.github.jaccek.githubinspector.util.logger.LoggerImpl
 
 object DiProvider {
 
@@ -18,6 +20,10 @@ object DiProvider {
         DaggerSpecificationComponent.builder()
                 .specificationModule(specificationModule)
                 .build()
+    }
+
+    val logger: Logger by lazy {
+        LoggerImpl()
     }
 
     fun init(specificationModule: SpecificationModule = SpecificationModule()) {

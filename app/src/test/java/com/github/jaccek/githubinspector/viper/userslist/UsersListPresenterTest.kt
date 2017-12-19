@@ -79,6 +79,7 @@ class UsersListPresenterTest {
         usersListSubject.onComplete()
 
         // then
+        Mockito.verify(view).hideLoader()
         Mockito.verify(view).showUsers(users)
     }
 
@@ -105,6 +106,7 @@ class UsersListPresenterTest {
         usersListSubject.onError(Throwable())
 
         // then
+        Mockito.verify(view).hideLoader()
         Mockito.verify(view).showError()
     }
 
@@ -126,7 +128,6 @@ class UsersListPresenterTest {
         // given
         presenter.attachView(view)
         ignoreGetUsersMethodCalledWhenAttachingView()
-        reset(interactor)
         val user = User(id = 12, login = "abc")
 
         // when
@@ -134,11 +135,15 @@ class UsersListPresenterTest {
 
         // then
         Mockito.verify(interactor).getUsers(user)
+        Mockito.verify(view).showLoader()
     }
 
     private fun ignoreGetUsersMethodCalledWhenAttachingView() {
         usersListSubject.onNext(listOf(mock()))
         usersListSubject.onComplete()
+
+        Mockito.reset(interactor)
+        Mockito.reset(view)
     }
 
     @Test

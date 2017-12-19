@@ -1,5 +1,6 @@
 package com.github.jaccek.githubinspector.viper.userslist
 
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.github.jaccek.githubinspector.R
@@ -21,6 +22,8 @@ internal class UsersListActivity :
     override val endOfListScrolls: Subject<User> = PublishSubject.create()
 
     private val usersAdapter = UsersListAdapter()
+    private lateinit var errorSnackbar: Snackbar
+    private lateinit var loadingSnackbar: Snackbar
 
     override fun createPresenter(): ViperPresenter<UsersListContract.View> =
             UsersListPresenter()
@@ -48,21 +51,24 @@ internal class UsersListActivity :
                 }
             }
         })
+
+        errorSnackbar = Snackbar.make(mBinding.containerView, "error", Snackbar.LENGTH_INDEFINITE)
+        loadingSnackbar = Snackbar.make(mBinding.containerView, "loading", Snackbar.LENGTH_INDEFINITE)
     }
 
     override fun showLoader() {
-        mBinding.viewModel?.loaderVisible = true
+        loadingSnackbar.show()
+    }
+
+    override fun hideLoader() {
+        loadingSnackbar.dismiss()
     }
 
     override fun showUsers(users: List<User>) {
-        mBinding.viewModel?.loaderVisible = false
-
         usersAdapter.addUsers(users)
     }
 
     override fun showError() {
-        mBinding.viewModel?.loaderVisible = false
-
-        // TODO: show error
+        errorSnackbar.show()
     }
 }

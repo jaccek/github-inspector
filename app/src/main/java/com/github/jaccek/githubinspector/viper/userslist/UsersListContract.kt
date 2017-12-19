@@ -19,6 +19,8 @@ internal interface UsersListContract {
 
         fun showLoader()
 
+        fun hideLoader()
+
         fun showUsers(users: List<User>)
 
         fun showError()

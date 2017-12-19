@@ -1,6 +1,8 @@
 package com.github.jaccek.githubinspector.viper.userslist
 
 import com.github.jaccek.githubinspector.rdp.model.User
+import com.github.jaccek.githubinspector.util.logger.Logger
+import com.github.jaccek.githubinspector.util.retrySubscribe
 import com.mateuszkoslacz.moviper.base.presenter.BaseRxPresenter
 import com.mateuszkoslacz.moviper.iface.presenter.ViperPresenter
 import io.reactivex.Maybe
@@ -24,8 +26,6 @@ internal class UsersListPresenter :
     override fun attachView(view: UsersListContract.View?) {
         super.attachView(view)
 
-        this.view?.showLoader()
-
         addSubscription(subscribeForUserSelections())
         addSubscription(subscribeForEndOfListScrolls())
 
@@ -34,29 +34,42 @@ internal class UsersListPresenter :
 
     private fun subscribeForUserSelections() =
             view?.itemSelections
-                    ?.subscribe { routing.showUserDetails(it) } // TODO: retry subscribe and onError
+                    ?.retrySubscribe(
+                            { routing.showUserDetails(it) },
+                            { Logger.e(it) }
+                    )
 
     private fun subscribeForEndOfListScrolls() =
             view?.endOfListScrolls
-                    ?.subscribe { getUsers(it) } // TODO: retry subscribe and onError
+                    ?.retrySubscribe(
+                            { getUsers(it) },
+                            { Logger.e(it) }
+                    )
 
     private fun getUsers(lastUser: User?) {
         if (queryForUserSubscribtion?.isDisposed == false) {
             return
         }
 
+        view?.showLoader()
         queryForUserSubscribtion = interactor.getUsers(lastUser)
                 .filter { it.isNotEmpty() }
                 .switchIfEmpty(Maybe.error<List<User>>(Throwable("Users list is empty")))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { view?.showUsers(it) },
+                        { showUsers(it) },
                         { showError(it) }
                 )
     }
 
+    private fun showUsers(users: List<User>) {
+        view?.hideLoader()
+        view?.showUsers(users)
+    }
+
     private fun showError(throwable: Throwable) {
-        throwable.printStackTrace()
+        Logger.e(throwable)
+        view?.hideLoader()
         view?.showError()
     }
 }
